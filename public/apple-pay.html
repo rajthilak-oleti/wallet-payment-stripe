@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Apple Pay</title>
+
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/helper.js" defer></script>
+    <script src="/apple-pay.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a href="/">home</a>
+      <h1>Pay with Wallet</h1>
+
+      <div id="loading"></div>
+      <div id="payment-request-button">
+        <!-- A Stripe Element will be inserted here if the browser supports this type of payment method. -->
+      </div>
+
+      <div id="messages" role="alert"></div>
+    </main>
+  </body>
+</html>

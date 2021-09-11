@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Accept a payment</title>
+
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1 class="accent-heading">Let's <br> Fund <br> Your <br> Account</h1>
+      <form id="payment-form">
+        <label for="name">
+          Checkings Balance
+        </label>
+        <input id="checkings" type="number" value="" required />
+        <label for="email">
+          Savings Balance
+        </label>
+        <input id="savings" type="number" value="" required />
+      </form>
+      <button id="submitBtn" onclick="navToNextPage()">
+        Fund my account
+      </button>
+    </main>
+    <script>
+      function navToNextPage () {
+        localStorage.clear()
+        let amount = {}
+        amount['checkings'] = parseInt(document.getElementById('checkings').value)
+        amount['savings'] = parseInt(document.getElementById('savings').value)
+        amount['total'] = amount['checkings'] + amount['savings']
+        console.log(JSON.stringify(amount))
+        let result = JSON.stringify(amount)
+        localStorage.setItem('totalAmount', result)
+        window.location.href = '/apple-pay.html'
+      }
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        var baseUrl = 'https://apple-pay-demo-zen.web.app';
+        // var baseUrl = 'http://localhost:5001/apple-pay-demo-zen/us-central1/app';
+        var registerDomain = `${baseUrl}/api/applePay/domainRegister`;
+        // Register Domain
+        await fetch(
+          registerDomain,
+          {
+            method: 'POST',
+            headers: {
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({domainName: window.document.location.host}),
+          }
+        )
+        .then(response => response.text())
+        .then((response) => {
+          console.log('Domain Registered ---> ', response);
+          console.log('Domain : ', window.document.location.host)
+          console.log(response);
+          isDomainRegistered = response;
+        })
+        .catch((err) => {
+          addMessage(`${'Failed to register Domain'}`)
+          console.log(err)
+        })
+      });
+    </script>
+  </body>
+</html>
